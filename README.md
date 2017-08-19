@@ -10,10 +10,8 @@ aware of these pitfalls. There could be many other tests worth adding to this
 list.
 
 Of those identified here, the only one that really bothers me is the realistic
-access of back door video memory. I have yet to encounter an emulator that
-passes this test. I did find one that claimed to emulate back/front door memory
-access. However, all it did was display the spurious dots during front door
-access which is cute but non too useful.
+access of back door video memory. I have tried quite a few and I have yet to
+encounter an emulator that passes this test.
 
 These are the tests that can be performed:
 
