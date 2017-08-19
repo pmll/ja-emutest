@@ -1,0 +1,103 @@
+: file-comment ( Jupiter Ace emulation tests) ;
+
+15403 constant frames
+
+: get-current-time
+    frames @
+    [ frames 2+ ] literal  @
+;
+
+9216 constant bdoor-screen
+8192 constant fdoor-screen
+
+16 base c!
+
+create write-addr
+    DF c, D5 c, E1 c, 0E c, 32 c, 11 c, 00 c, 00 c,
+    73 c, 1D c, 20 c, FC c, 15 c, 20 c, F9 c, 0D c,
+    20 c, F6 c, FD c, E9 c,
+
+create halt
+    76 c, FD c, E9 c,
+
+decimal
+
+: bvf ( test back door versus front door memory access)
+    cr
+    ." Starting back door test."
+    get-current-time dnegate
+    bdoor-screen write-addr call
+    get-current-time d+
+    drop 50 /
+    cr
+    ." Test took " . ." seconds."
+    cr
+    ." Starting front door test."
+    get-current-time dnegate
+    fdoor-screen write-addr call
+    get-current-time d+
+    drop 50 /
+    cr
+    ." Test took " .  ." seconds."
+;
+
+: pause
+    0 do
+        halt call
+    loop
+;
+
+: halt-test ( test halt instruction)
+    cr ." Pausing for 50 frames"
+    get-current-time dnegate
+    50 pause
+    get-current-time d+
+    drop
+    dup
+    cr ." Actually took " . ." frames" cr
+    49 < if
+        ." Test failed."
+    else
+        ." Test passed."
+    then
+;
+
+create udg1 0 c, 0 c, 0 c, 255 c, 0 c, 0 c, 0 c, 0 c,
+
+create udg2 16 c, 16 c, 16 c, 16 c, 16 c, 16 c, 16 c, 16 c,
+
+: set-udg ( address of definition, char no)
+    8 * 11264 +
+    4 0 do
+        over @ over !
+        swap 2+
+        swap 2+
+    loop 
+    drop drop
+;
+
+: udg-anim-test ( test animation using udgs)
+    cls cr cr cr cr cr
+    ." Can we animate by altering user defined character definitions?"
+    cr cr
+    32 0 do
+        1 emit
+    loop
+    cr cr cr
+    ." If nothing is changing above, we have a fail"
+    cr cr
+
+    40 0 do
+        5000 0 do loop
+        udg1 1 set-udg
+        5000 0 do loop
+        udg2 1 set-udg
+    loop
+;
+
+: sound-test ( can we tickle the ears?)
+    cr ." Playing sound now..." cr
+    478 5000 beep
+    ." Finished playing sound"
+;
+
