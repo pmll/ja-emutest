@@ -1,5 +1,5 @@
 # ja-emutest
-##Jupiter Ace Emulator Tests
+## Jupiter Ace Emulator Tests
 
 A set of tests for Jupiter Ace emulators. The only code required for the tests
 is that in forth/tests.ja4. The code in the asm directory is the assembly source
