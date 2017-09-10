@@ -33,6 +33,13 @@ memory containing character changes is updated to the display.
 
 * sound-test: Pretty simple - is the speaker being emulated?
 
+* char-mem-test: The character set RAM is unreadable on a real ACE. Different
+emulators seem to have a different idea of what value will be returned when an
+attempt is made to read this memory. This test fails if it is possible to read
+back accurately what has been written there. Failing this test is no big deal
+but it is a potential trap door for someone using the emulator to develop
+software who is not aware of/has forgotten this fact.
+
 A word of warning: any timings displayed on screen are based on the video frame
 counter which is updated by code, the execution of which is dependent on... the
 emulator.
